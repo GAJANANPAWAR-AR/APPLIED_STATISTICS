@@ -84,6 +84,15 @@
             border-left: 5px solid #3b82f6;
             padding-left: 1rem;
         }
+        .theory-block {
+            background: rgba(0,0,0,0.03);
+            border-radius: 1.2rem;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+        .dark .theory-block {
+            background: rgba(255,255,255,0.05);
+        }
         @media (max-width: 768px) {
             .section-title { font-size: 1.5rem; }
         }
@@ -128,11 +137,33 @@
         <section id="ch1" class="mb-20">
             <h2 class="section-title text-3xl font-bold mb-6">📁 Chapter 1 – Data Characterization in Automation Systems</h2>
             <div class="glass-card p-6 md:p-8">
+                <!-- Anchor dataset -->
                 <p class="font-semibold text-lg">🔧 Anchor dataset: Robotic positional deviation (mm) – 12 cycles</p>
                 <pre class="bg-black/10 dark:bg-white/5 p-3 rounded-xl my-3 font-mono text-sm">[2.1, 1.9, 2.2, 2.0, 2.3, 1.8, 2.1, 2.2, 2.0, 1.9, 2.4, 2.1]</pre>
+                
+                <!-- Theory & Formulas for descriptive stats -->
+                <div class="theory-block">
+                    <h3 class="font-bold text-xl mb-2">📖 Theoretical foundations & formulas</h3>
+                    <div class="grid md:grid-cols-2 gap-4 text-sm">
+                        <div>
+                            <p><strong>Mean (average):</strong> $$\bar{x} = \frac{1}{n}\sum_{i=1}^{n} x_i$$</p>
+                            <p><strong>Median:</strong> Middle value when data sorted. If n even, average of two middle values.</p>
+                            <p><strong>Mode:</strong> Most frequent value.</p>
+                            <p><strong>Variance (sample):</strong> $$s^2 = \frac{\sum (x_i - \bar{x})^2}{n-1}$$</p>
+                            <p><strong>Standard deviation:</strong> $$s = \sqrt{s^2}$$</p>
+                        </div>
+                        <div>
+                            <p><strong>Coefficient of Variation (CV):</strong> $$CV = \frac{s}{\bar{x}} \times 100\%$$</p>
+                            <p><strong>Quartiles & IQR:</strong> Q1 (25th percentile), Q3 (75th), IQR = Q3 – Q1.</p>
+                            <p><strong>Outlier rule (1.5×IQR):</strong> Lower bound = Q1 – 1.5·IQR, Upper = Q3 + 1.5·IQR.</p>
+                            <p><strong>Mean error:</strong> Bias = \(\bar{x} - \text{Target}\)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Computed results -->
                 <div class="grid md:grid-cols-2 gap-6 mt-4">
                     <div>
-                        <p><strong>📐 Theory:</strong> Data must be structured, variables: continuous (mm), discrete (counts), qualitative (states). Frequency distribution, ordered tabulation.</p>
                         <ul class="list-disc list-inside mt-2 space-y-1 text-sm">
                             <li>Mean = 2.083 mm | Median = 2.1 mm | Mode = 2.1 mm</li>
                             <li>Variance = 0.035, σ = 0.187 mm | CV = 9.0%</li>
@@ -155,15 +186,29 @@
         <section id="ch2" class="mb-20">
             <h2 class="section-title text-3xl font-bold mb-6">🎲 Chapter 2 – Probabilistic Modeling of Uncertainty</h2>
             <div class="glass-card p-6 md:p-8 space-y-6">
+                <div class="theory-block">
+                    <h3 class="font-bold text-lg">📐 Probability axioms & key rules</h3>
+                    <div class="grid md:grid-cols-2 gap-4 text-sm">
+                        <div>
+                            <p><strong>Sample space (S):</strong> set of all outcomes. Event: subset of S.</p>
+                            <p><strong>Axioms:</strong> \(P(S)=1\), \(0\le P(E)\le1\), for disjoint events \(P(\bigcup E_i)=\sum P(E_i)\).</p>
+                            <p><strong>Addition rule:</strong> \(P(A\cup B)=P(A)+P(B)-P(A\cap B)\).</p>
+                            <p><strong>Multiplication rule (independent):</strong> \(P(A\cap B)=P(A)P(B)\).</p>
+                        </div>
+                        <div>
+                            <p><strong>Conditional probability:</strong> \(P(A|B)=\frac{P(A\cap B)}{P(B)}\).</p>
+                            <p><strong>Law of Total Probability:</strong> \(P(B)=\sum_i P(A_i)P(B|A_i)\).</p>
+                            <p><strong>Bayes' theorem:</strong> \(P(A_i|B)=\frac{P(A_i)P(B|A_i)}{\sum_j P(A_j)P(B|A_j)}\).</p>
+                        </div>
+                    </div>
+                </div>
                 <div class="grid md:grid-cols-2 gap-5">
-                    <div><i class="fas fa-dice-d6 text-blue-500"></i> <strong>Foundations:</strong> Sample space S (robot states: Idle,Running,Fault). Axioms: $P(S)=1$, $0\le P(E)\le1$, additivity. Addition rule: $P(A\cup B)=P(A)+P(B)-P(A\cap B)$. Multiplication: $P(A\cap B)=P(A)P(B)$ for independent events.</div>
-                    <div><i class="fas fa-chalkboard-user"></i> <strong>Law of Total Probability:</strong> $P(B)=\sum P(A_i)P(B|A_i)$. <br> 📍 Automation example: 3 lines → Defect rate = $0.3×0.02 + 0.45×0.03 + 0.25×0.04 = 0.0295$ (2.95%)</div>
+                    <div><i class="fas fa-dice-d6 text-blue-500"></i> <strong>Automation example - Total probability:</strong> 3 production lines L1(30%, defect 2%), L2(45%,3%), L3(25%,4%) → overall defect rate = \(0.3×0.02 + 0.45×0.03 + 0.25×0.04 = 0.0295\) (2.95%).</div>
+                    <div><i class="fas fa-brain"></i> <strong>Bayesian fault diagnosis:</strong> Prior \(P(F)=0.02\), sensor sensitivity \(P(Alarm|F)=0.98\), false alarm \(P(Alarm|\neg F)=0.04\). Then \(P(Alarm)=0.0588\), posterior \(P(F|Alarm)=0.3333\) (33.3%). Even with good sensor, low prior yields moderate posterior → need redundant sensors.</div>
                 </div>
-                <div class="bg-white/20 dark:bg-white/5 p-4 rounded-2xl">
-                    <h3 class="font-bold text-lg">🧠 Bayesian Reasoning – Fault Diagnosis</h3>
-                    <p class="text-sm">Prior $P(F)=0.02$, Sensor $P(Alarm|F)=0.98$, $P(Alarm|\neg F)=0.04$. $$P(Alarm)=0.02·0.98+0.98·0.04=0.0588$$ Posterior $P(F|Alarm)=\frac{0.0196}{0.0588}=0.3333$ (33.3%). Interpretation: Even with good sensor, low prior yields moderate posterior, need redundant sensors.</p>
+                <div class="bg-white/20 dark:bg-white/5 p-4 rounded-2xl text-sm">
+                    💡 <strong>Interpretation:</strong> Bayesian updating is crucial for automated inspection systems (vision, vibration) to reduce false alarms and improve reliability.
                 </div>
-                <div><strong>Conditional Probability:</strong> $P(A|B)=P(A\cap B)/P(B)$. Bayes' theorem: $$P(A_i|B)=\frac{P(A_i)P(B|A_i)}{\sum P(A_j)P(B|A_j)}$$. All formulas automated decision-making.</div>
             </div>
         </section>
 
@@ -173,29 +218,33 @@
             <div class="grid lg:grid-cols-2 gap-8">
                 <!-- Binomial Card -->
                 <div class="glass-card p-5">
-                    <h3 class="text-xl font-bold">📉 Binomial (n=50, p=0.04 defects)</h3>
-                    <p>PMF: $P(X=2)=0.2652$, $P(X=0)=0.1299$, $P(X>3)=0.1574$, Mean=2.0, σ=1.386</p>
+                    <h3 class="text-xl font-bold">📉 Binomial Distribution</h3>
+                    <p class="text-sm">PMF: \(P(X=k)=\binom{n}{k}p^k(1-p)^{n-k}\). For n=50, p=0.04: Mean=np=2.0, σ=√[np(1-p)]=1.386.</p>
+                    <p>P(X=2)=0.2652, P(X=0)=0.1299, P(X>3)=0.1574</p>
                     <div class="chart-container mt-3"><canvas id="binomChart" height="200"></canvas></div>
                 </div>
                 <!-- Poisson Card -->
                 <div class="glass-card p-5">
-                    <h3 class="text-xl font-bold">⚡ Poisson (λ=1.0 failures/board)</h3>
-                    <p>$P(X=0)=0.3679$, $P(X=2)=0.1839$, $P(X\ge3)=0.0803$, Mean=Variance=1.0</p>
+                    <h3 class="text-xl font-bold">⚡ Poisson Distribution</h3>
+                    <p>\(P(X=k)=e^{-\lambda}\lambda^k/k!\). λ=1.0 failures/board. Mean=Variance=1.0.</p>
+                    <p>P(X=0)=0.3679, P(X=2)=0.1839, P(X≥3)=0.0803.</p>
                     <div class="chart-container mt-3"><canvas id="poissonChart" height="200"></canvas></div>
                 </div>
                 <!-- Normal + Empirical Rule -->
                 <div class="glass-card p-5">
-                    <h3 class="text-xl font-bold">🔔 Normal Distribution: Placement deviation $N(0.50,0.08^2)$</h3>
-                    <p>Spec limits [0.30,0.70] → $Z=\pm2.5$ → 98.76% within spec. 95th percentile = 0.6316 mm.<br>Empirical rule: 68-95-99.7% alarms. Z-scores: Gripper $Z_A=2.40$, Wrist $Z_B=2.80$ → wrist more unusual.</p>
+                    <h3 class="text-xl font-bold">🔔 Normal Distribution</h3>
+                    <p>\(X\sim N(\mu,\sigma^2)\). pdf: \(f(x)=\frac{1}{\sigma\sqrt{2\pi}}e^{-(x-\mu)^2/(2\sigma^2)}\).</p>
+                    <p>Placement deviation \(N(0.50,0.08^2)\). Spec limits [0.30,0.70] → Z=±2.5 → 98.76% within spec. 95th percentile = 0.6316 mm.</p>
+                    <p><strong>Empirical rule:</strong> 68% within μ±σ, 95% within μ±2σ, 99.7% within μ±3σ → alarm thresholds. Z-scores: \(Z=(x-\mu)/\sigma\). Gripper Z_A=2.40, Wrist Z_B=2.80 → wrist more unusual.</p>
                     <div class="chart-container mt-2"><canvas id="normalPdfChart" height="200"></canvas></div>
                 </div>
-                <!-- CLT & Joint distribution -->
+                <!-- CLT & Joint -->
                 <div class="glass-card p-5">
                     <h3 class="text-xl font-bold">📐 CLT & Joint Distributions</h3>
-                    <p><strong>CLT:</strong> Cycle time μ=12.0s, σ=1.8s, n=36 → SE=0.30s, $P(\bar{X}>12.5)=0.0475$ (Z=1.667).</p>
-                    <p><strong>Covariance & Correlation:</strong> Paired (deviation X vs temperature Y). r = 0.9996 → almost perfect positive, control temperature to reduce deviation.</p>
+                    <p><strong>Central Limit Theorem:</strong> \(\bar{X}\sim N(\mu, \sigma/\sqrt{n})\) approx. Cycle time μ=12.0s, σ=1.8s, n=36 → SE=0.30s, \(P(\bar{X}>12.5)=0.0475\) (Z=1.667).</p>
+                    <p><strong>Covariance & Correlation:</strong> \(\text{Cov}(X,Y)=\frac{\sum (x_i-\bar{x})(y_i-\bar{y})}{n-1}\), \(r=\frac{\text{Cov}}{s_X s_Y}\).</p>
+                    <p>Paired data (deviation vs temperature): Cov=0.2557, r=0.9996 → almost perfect positive linear relation (thermal expansion).</p>
                     <div class="chart-container mt-2"><canvas id="scatterPlot" height="200"></canvas></div>
-                    <p class="text-xs mt-1">sample covariance = 0.2557, correlation = 0.9996 (thermal expansion effect)</p>
                 </div>
             </div>
         </section>
@@ -204,91 +253,101 @@
         <section id="ch4" class="mb-20">
             <h2 class="section-title text-3xl font-bold mb-6">📐 Chapter 4 – Statistical Inference for Automation Decisions</h2>
             <div class="glass-card p-6 md:p-8 space-y-6">
+                <!-- Theory: CI and Hypothesis Testing -->
+                <div class="theory-block">
+                    <h3 class="font-bold text-lg">Confidence intervals & Hypothesis testing formulas</h3>
+                    <div class="grid md:grid-cols-2 gap-4 text-sm">
+                        <div>
+                            <p><strong>Z-interval (σ known):</strong> \(\bar{x} \pm z_{\alpha/2}\frac{\sigma}{\sqrt{n}}\)</p>
+                            <p><strong>t-interval (σ unknown):</strong> \(\bar{x} \pm t_{\alpha/2, n-1}\frac{s}{\sqrt{n}}\)</p>
+                            <p><strong>CI for proportion:</strong> \(\hat{p} \pm z_{\alpha/2}\sqrt{\frac{\hat{p}(1-\hat{p})}{n}}\)</p>
+                        </div>
+                        <div>
+                            <p><strong>Hypothesis testing steps:</strong> H₀, H₁, test statistic, critical value/p-value, decision.</p>
+                            <p><strong>t-test statistic:</strong> \(t = \frac{\bar{x}-\mu_0}{s/\sqrt{n}}\)</p>
+                            <p><strong>Z-test statistic:</strong> \(Z = \frac{\bar{x}-\mu_0}{\sigma/\sqrt{n}}\)</p>
+                            <p><strong>Type I error (α):</strong> reject true H₀ (false alarm). <strong>Type II error (β):</strong> fail to reject false H₀ (missed detection).</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Worked examples -->
                 <div class="grid md:grid-cols-3 gap-4 text-sm">
-                    <div class="bg-indigo-50 dark:bg-indigo-950/30 p-3 rounded-xl"><strong>Z-interval (σ known):</strong> $n=36,\bar{x}=12.5,\sigma=1.8$ → 95% CI $[11.912,13.088]$</div>
-                    <div class="bg-indigo-50 dark:bg-indigo-950/30 p-3 rounded-xl"><strong>t-interval (σ unknown):</strong> $n=12,\bar{x}=2.08,s=0.187$ → 95% CI $[1.961,2.199]$ mm</div>
-                    <div class="bg-indigo-50 dark:bg-indigo-950/30 p-3 rounded-xl"><strong>CI for proportion:</strong> 4/100 defects → 95% CI $[0.0016, 0.0784]$</div>
+                    <div class="bg-indigo-50 dark:bg-indigo-950/30 p-3 rounded-xl"><strong>Z-interval (σ known):</strong> n=36, \(\bar{x}=12.5\), σ=1.8 → 95% CI \([11.912,13.088]\)</div>
+                    <div class="bg-indigo-50 dark:bg-indigo-950/30 p-3 rounded-xl"><strong>t-interval (σ unknown):</strong> n=12, \(\bar{x}=2.08\), s=0.187 → 95% CI \([1.961,2.199]\) mm</div>
+                    <div class="bg-indigo-50 dark:bg-indigo-950/30 p-3 rounded-xl"><strong>CI for proportion:</strong> 4/100 defects → 95% CI \([0.0016, 0.0784]\)</div>
                 </div>
                 <div class="flex flex-wrap gap-6">
                     <div class="flex-1">
-                        <h3 class="font-bold text-lg">📌 Hypothesis Testing</h3>
-                        <p>t-test (H₀: μ=2.0) → t=1.481, df=11, t_crit=2.201 → fail to reject H₀ (p≈0.166). No significant bias.<br>Z-test: known σ=0.2, n=30, $\bar{x}=2.09$, Z=2.46 > 1.96 → reject H₀.<br>⚠️ Type I error (false alarm), Type II error (missed fault) crucial in automation.</p>
+                        <h3 class="font-bold text-lg">📌 Hypothesis Testing Examples</h3>
+                        <p><strong>t-test (σ unknown):</strong> H₀: μ=2.0 vs H₁: μ≠2.0, n=12, \(\bar{x}=2.083\), s=0.187 → t=1.481, df=11, t_crit=2.201 → fail to reject H₀ (p≈0.166). No significant bias.</p>
+                        <p><strong>Z-test (σ known):</strong> σ=0.2, n=30, \(\bar{x}=2.09\) vs μ₀=2.0 → Z=2.46 > 1.96 → reject H₀. Process mean shifted.</p>
+                        <p class="mt-2 text-sm">⚠️ Type I error (false alarm) may cause unnecessary recalibration; Type II error may allow defective products.</p>
                     </div>
                     <div class="flex-1 border-l pl-4 border-gray-300 dark:border-gray-700">
-                        <p class="font-semibold">🎯 CI comparison: Known σ → narrower interval (11.91,13.09) vs unknown σ t-interval (1.96,2.20) shows uncertainty from estimating σ.</p>
-                        <div class="mt-2 h-4 w-full bg-gray-200 rounded-full overflow-hidden"><div class="bg-blue-600 h-full w-[42%] rounded-full"></div><div class="text-[10px] text-center">CI visualization</div></div>
+                        <p class="font-semibold">🎯 Statistical vs Practical significance</p>
+                        <p>A small shift may be statistically significant but not practically important if within engineering tolerance. Always combine with domain knowledge.</p>
+                        <div class="mt-4 text-center text-xs">Confidence interval width comparison: Known σ yields narrower intervals.</div>
                     </div>
                 </div>
-                <div class="bg-cyan-50 dark:bg-cyan-950/20 p-4 rounded-xl text-sm">✅ <strong>Engineering impact:</strong> Confidence intervals guide tolerance design, hypothesis testing validates process calibration.</div>
             </div>
         </section>
 
-        <!-- Assessments Section: 4 PDF Download Cards (2 active with exact filenames, 2 placeholders) -->
+        <!-- Assessments Section: 4 PDF Download Cards (with sample files) -->
         <section id="assess" class="mb-16">
-            <h2 class="section-title text-3xl font-bold mb-6">📄 Assessments (4 PDFs) & Instructor Credit</h2>
+            <h2 class="section-title text-3xl font-bold mb-6">📄 Lab Assessments (4 PDFs) & Instructor Credit</h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 justify-items-center">
-                <!-- Assessment 1: Lab_Assessment_1_01FE24BAR015.pdf -->
+                <!-- Assessment 1 -->
                 <div class="glass-card w-full max-w-[220px] p-5 text-center">
                     <i class="fas fa-file-pdf text-4xl text-red-500"></i>
                     <p class="mt-2 font-bold">Lab Assessment 1</p>
-                    <p class="text-xs opacity-70">Descriptive Stats</p>
+                    <p class="text-xs opacity-70">Data Characterization</p>
                     <a href="Lab_Assessment_1_01FE24BAR015.pdf" download class="mt-4 bg-black/20 dark:bg-white/10 px-5 py-2 rounded-full text-sm inline-block hover:bg-black/30 transition"><i class="fas fa-download"></i> Download PDF</a>
                 </div>
-                <!-- Assessment 2: Lab_Assessment_2_01FE24BAR015.pdf -->
+                <!-- Assessment 2 -->
                 <div class="glass-card w-full max-w-[220px] p-5 text-center">
                     <i class="fas fa-file-pdf text-4xl text-red-500"></i>
                     <p class="mt-2 font-bold">Lab Assessment 2</p>
                     <p class="text-xs opacity-70">Probability & Bayes</p>
                     <a href="Lab_Assessment_2_01FE24BAR015.pdf" download class="mt-4 bg-black/20 dark:bg-white/10 px-5 py-2 rounded-full text-sm inline-block hover:bg-black/30 transition"><i class="fas fa-download"></i> Download PDF</a>
                 </div>
-                <!-- Assessment 3 (placeholder – user will add later) -->
+                <!-- Assessment 3 (placeholder) -->
                 <div class="glass-card w-full max-w-[220px] p-5 text-center">
                     <i class="fas fa-file-pdf text-4xl text-red-500"></i>
                     <p class="mt-2 font-bold">Assessment 3</p>
                     <p class="text-xs opacity-70">Distributions + CLT</p>
-                    <a href="assessment3.pdf" download class="mt-4 bg-black/20 dark:bg-white/10 px-5 py-2 rounded-full text-sm inline-block hover:bg-black/30 transition"><i class="fas fa-download"></i> Download PDF (sample)</a>
+                    <a href="Lab_Assessment_3_01FE24BAR015.pdf" download class="mt-4 bg-black/20 dark:bg-white/10 px-5 py-2 rounded-full text-sm inline-block hover:bg-black/30 transition"><i class="fas fa-download"></i> Download PDF (sample)</a>
                 </div>
-                <!-- Assessment 4 (placeholder – user will add later) -->
+                <!-- Assessment 4 (placeholder) -->
                 <div class="glass-card w-full max-w-[220px] p-5 text-center">
                     <i class="fas fa-file-pdf text-4xl text-red-500"></i>
                     <p class="mt-2 font-bold">Assessment 4</p>
                     <p class="text-xs opacity-70">Inference & CI</p>
-                    <a href="assessment4.pdf" download class="mt-4 bg-black/20 dark:bg-white/10 px-5 py-2 rounded-full text-sm inline-block hover:bg-black/30 transition"><i class="fas fa-download"></i> Download PDF (sample)</a>
+                    <a href="Lab_Assessment_4_01FE24BAR015.pdf" download class="mt-4 bg-black/20 dark:bg-white/10 px-5 py-2 rounded-full text-sm inline-block hover:bg-black/30 transition"><i class="fas fa-download"></i> Download PDF (sample)</a>
                 </div>
             </div>
             <div class="mt-8 text-center glass-card py-4 px-6">
-                <i class="fas fa-chalkboard-user"></i> <strong>Instructor:</strong> Dr. Vinayak N Kulkarni, HoD, Automation & Robotics, KLE Technological University, Hubballi.
+                <i class="fas fa-chalkboard-user"></i> <strong>Instructor:</strong> Dr.Narayan Swamy , Automation & Robotics, KLE Technological University, Hubballi.
                 <p class="text-xs mt-1">Course capstone – Industry 4.0 statistics integration</p>
             </div>
         </section>
     </main>
 
     <script>
-        // ---------- GLOBAL DATA ----------
-        // histogram data
+        // ---------- GLOBAL CHARTS ----------
         const histLabels = ['1.75-1.95', '1.95-2.15', '2.15-2.35', '2.35-2.55'];
         const histFreq = [2, 7, 2, 1];
-        // Binomial: n=50, p=0.04
         function binomProb(k, n=50, p=0.04) {
-            let comb = (n, k) => {
-                if (k<0 || k>n) return 0;
-                let res = 1;
-                for(let i=1;i<=k;i++) res = res * (n - i + 1)/i;
-                return res;
-            };
+            let comb = (n, k) => { if(k<0||k>n) return 0; let res=1; for(let i=1;i<=k;i++) res=res*(n-i+1)/i; return res; };
             return comb(n,k) * Math.pow(p,k) * Math.pow(1-p, n-k);
         }
         const binomLabels = [...Array(9).keys()];
         const binomValues = binomLabels.map(k => binomProb(k));
-        // Poisson lambda=1.0
-        function poissonProb(k, lam=1.0) { return Math.exp(-lam) * Math.pow(lam,k) / (function fact(n){return n<=1?1:n*fact(n-1);})(k); }
+        function poissonProb(k, lam=1.0) { let fact=(n)=>n<=1?1:n*fact(n-1); return Math.exp(-lam)*Math.pow(lam,k)/fact(k); }
         const poissonLabels = [...Array(7).keys()];
         const poissonValues = poissonLabels.map(k => poissonProb(k));
-        // Normal PDF (standard normal)
-        const normX = [];
-        const normY = [];
+        const normX = [], normY = [];
         for(let z=-3.2; z<=3.2; z+=0.1) { normX.push(z.toFixed(1)); normY.push((1/Math.sqrt(2*Math.PI))*Math.exp(-0.5*z*z)); }
-        // Scatter data (deviation X, temp Y)
         const scatterX = [0.45,0.52,0.48,0.60,0.55,0.42,0.58,0.50];
         const scatterY = [248,252,250,258,255,246,256,251];
         let chartInstances = [];
@@ -308,15 +367,15 @@
             // Poisson
             const ctxPoi = document.getElementById('poissonChart').getContext('2d');
             chartInstances.push(new Chart(ctxPoi, { type: 'bar', data: { labels: poissonLabels, datasets: [{ label: 'Poisson P(X=k)', data: poissonValues, backgroundColor: '#a855f7' }] }, options: { responsive: true, scales: { y: { ticks: { color: textColor }, grid: { color: gridColor } }, x: { ticks: { color: textColor } } }, plugins: { legend: { labels: { color: textColor } } } } }));
-            // Normal PDF line
+            // Normal PDF
             const ctxNorm = document.getElementById('normalPdfChart').getContext('2d');
-            chartInstances.push(new Chart(ctxNorm, { type: 'line', data: { labels: normX, datasets: [{ label: 'f(z)', data: normY, borderColor: '#10b981', borderWidth: 2.5, fill: false, pointRadius: 0, tension: 0.2 }] }, options: { responsive: true, scales: { y: { title: { display: true, text: 'Density', color: textColor }, ticks: { color: textColor }, grid: { color: gridColor } }, x: { title: { display: true, text: 'Z-score', color: textColor }, ticks: { color: textColor } } }, plugins: { legend: { labels: { color: textColor } } } } }));
-            // Scatter plot
+            chartInstances.push(new Chart(ctxNorm, { type: 'line', data: { labels: normX, datasets: [{ label: 'f(z)', data: normY, borderColor: '#10b981', borderWidth: 2.5, fill: false, tension: 0.2 }] }, options: { responsive: true, scales: { y: { title: { display: true, text: 'Density', color: textColor }, ticks: { color: textColor }, grid: { color: gridColor } }, x: { title: { display: true, text: 'Z-score', color: textColor }, ticks: { color: textColor } } }, plugins: { legend: { labels: { color: textColor } } } } }));
+            // Scatter
             const ctxScatter = document.getElementById('scatterPlot').getContext('2d');
             chartInstances.push(new Chart(ctxScatter, { type: 'scatter', data: { datasets: [{ label: 'Deviation vs Temperature', data: scatterX.map((x,i)=> ({x: x, y: scatterY[i]})), backgroundColor: '#f97316', pointRadius: 6, pointHoverRadius: 8 }] }, options: { responsive: true, scales: { x: { title: { display: true, text: 'Positional deviation (mm)', color: textColor }, ticks: { color: textColor }, grid: { color: gridColor } }, y: { title: { display: true, text: 'Temperature (°C)', color: textColor }, ticks: { color: textColor }, grid: { color: gridColor } } }, plugins: { tooltip: { callbacks: { label: (ctx) => `( ${ctx.parsed.x} mm , ${ctx.parsed.y} °C )` } }, legend: { labels: { color: textColor } } } } }));
         }
 
-        // Dark Mode with localstorage
+        // Dark mode persistence
         const darkToggle = document.getElementById('darkModeToggle');
         const isDark = localStorage.getItem('darkMode') === 'true';
         if (isDark) document.body.classList.add('dark');
@@ -329,7 +388,7 @@
             document.body.classList.toggle('dark');
             applyDarkModeUI();
         });
-        // GSAP Scroll Animations
+        // GSAP scroll animations
         gsap.registerPlugin(ScrollTrigger);
         function initScrollAnimations() {
             const cards = document.querySelectorAll('.glass-card');
@@ -341,15 +400,14 @@
         window.addEventListener('load', () => {
             initCharts(document.body.classList.contains('dark'));
             initScrollAnimations();
-            if (window.MathJax) { MathJax.typesetPromise(); }
+            if (window.MathJax) MathJax.typesetPromise();
         });
         window.addEventListener('resize', () => { if(chartInstances.length) chartInstances.forEach(ch => ch?.resize()); });
     </script>
     <div class="max-w-7xl mx-auto px-4 pb-8 text-xs text-center opacity-60 border-t border-gray-200 dark:border-gray-800 pt-6">
-        <i class="fas fa-chart-simple"></i> All charts interactive | MathJax enabled | Glassmorphism + Dark mode persistent | GSAP smooth scroll. 
-        <br>📐 Covariance computed from sample: 0.2557, correlation r=0.9996 (confirms thermal drift).
-        <br>📎 <strong>PDF setup:</strong> Place your two existing PDFs in the same folder as <code>index.html</code> with these exact names:<br>
-        <code>Lab_Assessment_1_01FE24BAR015.pdf</code> and <code>Lab_Assessment_2_01FE24BAR015.pdf</code>. For assessments 3 & 4, rename your future PDFs to <code>assessment3.pdf</code> and <code>assessment4.pdf</code> (or edit the link hrefs accordingly).
+        <i class="fas fa-chart-simple"></i> All charts interactive | MathJax-enabled formulas | Glassmorphism + Dark mode persistent | GSAP smooth scroll.
+        <br>📐 Covariance & correlation computed from sample: 0.2557, r=0.9996 (confirms thermal drift effect).
+        <br>📎 <strong>PDF setup:</strong> Place your two existing PDFs with the exact names <code>Lab_Assessment_1_01FE24BAR015.pdf</code> and <code>Lab_Assessment_2_01FE24BAR015.pdf</code> in the same folder as <code>index.html</code>. For assessments 3 & 4, rename your future PDFs to <code>assessment3.pdf</code> and <code>assessment4.pdf</code> (or edit the href links accordingly).
     </div>
 </body>
 </html>
